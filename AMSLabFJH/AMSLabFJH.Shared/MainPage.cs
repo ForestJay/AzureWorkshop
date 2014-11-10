@@ -13,31 +13,28 @@ namespace AMSLabFJH
 {
     sealed partial class MainPage: Page
     {
-        private MobileServiceCollection<Person, Person> items;
-        private IMobileServiceTable<Person> todoTable = App.MobileService.GetTable<Person>();
+        private MobileServiceCollection<Group, Group> items;
+        private IMobileServiceTable<Group> groupsTable = App.MobileService.GetTable<Group>();
+        private IMobileServiceTable<Person> peopleTable = App.MobileService.GetTable<Person>();
+        private Person person = null;
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
-        private async Task InsertPerson(Person Person)
-        {
-            // This code inserts a new Person into the database. When the operation completes
-            // and Mobile Services has assigned an Id, the item is added to the CollectionView
-            await todoTable.InsertAsync(Person);
-            items.Add(Person);
-        }
-
-        private async Task RefreshPersons()
+        private async Task RefreshData()
         {
             MobileServiceInvalidOperationException exception = null;
             try
             {
-                // This code refreshes the entries in the list view by querying the Persons table.
+                // This code refreshes the entries     // in the list view by querying the Persons table.
                 // The query excludes completed Persons
-                items = await todoTable
-                    .ToCollectionAsync();
+                person = await peopleTable.LookupAsync("1");
+                userNameTextBox.Text = person.Name;
+
+                items = await groupsTable.Where(g => g.OwnerId ==
+                  person.Id).ToCollectionAsync();
             }
             catch (MobileServiceInvalidOperationException e)
             {
@@ -51,24 +48,24 @@ namespace AMSLabFJH
             else
             {
                 ListItems.ItemsSource = items;
-                this.ButtonSave.IsEnabled = true;
+                this.changeNameButton.IsEnabled = true;
             }
         }
 
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
-            await RefreshPersons();
+            await RefreshData();
         }
 
-        private async void ButtonSave_Click(object sender, RoutedEventArgs e)
+        private async void ChangeName_Click(object sender, RoutedEventArgs e)
         {
-            var Person = new Person { Name = TextInput.Text };
-            await InsertPerson(Person);
+            person.Name = userNameTextBox.Text;
+            await peopleTable.UpdateAsync(person);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await RefreshPersons();
+            await Dispatcher.RunIdleAsync(async args => await RefreshData());
         }
     }
 }

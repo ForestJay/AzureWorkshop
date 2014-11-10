@@ -31,11 +31,11 @@
             <Grid Grid.Row="1">
                 <StackPanel>
 
-                    <local:QuickStartTask Number="1" Title="Person" Description="Enter a name below and click Save to insert a new Person item into your database." />
-
+                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="User Name:" />
+                    
                     <StackPanel Orientation="Horizontal" Margin="72,0,0,0">
-                        <TextBox Name="TextInput" Margin="5" MinWidth="300"></TextBox>
-                        <Button Name="ButtonSave" Click="ButtonSave_Click" IsEnabled="False">Save</Button>
+                        <TextBox Name="userNameTextBox" Margin="5" MinWidth="300"></TextBox>
+                        <Button Name="changeNameButton" Click="ChangeName_Click" IsEnabled="False">Change</Button>
                     </StackPanel>
 
                 </StackPanel>
@@ -47,7 +47,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
-                    <local:QuickStartTask Number="2" Title="Groups" Description="Click refresh below to load the People from your database." />
+                    <TextBlock Style="{StaticResource SubheaderTextBlockStyle}" Text="Groups:" />
                     <Button Margin="72,0,0,0" Name="ButtonRefresh" Click="ButtonRefresh_Click">Refresh</Button>
                 </StackPanel>
 
