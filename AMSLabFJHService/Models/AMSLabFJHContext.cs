@@ -39,6 +39,14 @@ namespace AMSLabFJHService.Models
                 new AttributeToColumnAnnotationConvention<TableColumnAttribute, string>(
                     "ServiceTableColumn", (property, attributes) => attributes.Single().ColumnType.ToString()));
         }
+
+        public System.Data.Entity.DbSet<AMSLabFJHService.DataObjects.CheckIn> CheckIns { get; set; }
+
+        public System.Data.Entity.DbSet<AMSLabFJHService.DataObjects.Group> Groups { get; set; }
+
+        public System.Data.Entity.DbSet<AMSLabFJHService.DataObjects.GroupMembership> GroupMemberships { get; set; }
+
+        public System.Data.Entity.DbSet<AMSLabFJHService.DataObjects.Invitation> Invitations { get; set; }
     }
 
 }
