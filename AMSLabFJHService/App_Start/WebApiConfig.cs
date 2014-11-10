@@ -21,24 +21,25 @@ namespace AMSLabFJHService
             // To display errors in the browser during development, uncomment the following
             // line. Comment it out again when you deploy your service for production use.
             // config.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
-            
+
             Database.SetInitializer(new AMSLabFJHInitializer());
         }
     }
 
     public class AMSLabFJHInitializer : ClearDatabaseSchemaIfModelChanges<AMSLabFJHContext>
     {
+
         protected override void Seed(AMSLabFJHContext context)
         {
-            List<TodoItem> todoItems = new List<TodoItem>
-            {
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "First item", Complete = false },
-                new TodoItem { Id = Guid.NewGuid().ToString(), Text = "Second item", Complete = false },
-            };
+            List<Person> todoItems = new List<Person>
+    {
+      new Person { Id = "1", Name = "Arthur Pewty", ExternalId = "Twitter:1234" },
+      new Person { Id = "2", Name = "Arthur Dent", ExternalId = "Facebook:42" }
+    };
 
-            foreach (TodoItem todoItem in todoItems)
+            foreach (Person todoItem in todoItems)
             {
-                context.Set<TodoItem>().Add(todoItem);
+                context.Set<Person>().Add(todoItem);
             }
 
             base.Seed(context);
