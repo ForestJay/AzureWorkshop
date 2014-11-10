@@ -38,7 +38,7 @@
             <Button Grid.Row ="1" Grid.Column="1" Name="changeNameButton" Click="ChangeName_Click" IsEnabled="False" Margin="10, 0, 0, 0">Change</Button>
             <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource BodyTextBlockStyle}" Text="Groups" TextWrapping="Wrap"/>
             <Button Grid.Row="3" Grid.ColumnSpan="2" Name="ButtonRefresh" Click="ButtonRefresh_Click" HorizontalAlignment="Stretch">Refresh</Button>
-            <ListView  Grid.Row="4" Grid.ColumnSpan="2" Name="ListItems">
+            <ListView  Grid.Row="4" Grid.ColumnSpan="2" Name="ListItems" SelectionChanged="List_SelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">

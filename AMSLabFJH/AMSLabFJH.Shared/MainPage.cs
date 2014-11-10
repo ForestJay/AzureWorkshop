@@ -67,5 +67,14 @@ namespace AMSLabFJH
         {
             await Dispatcher.RunIdleAsync(async args => await RefreshData());
         }
+
+        public void List_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var group = ((ListView)sender).SelectedItem as Group;
+            if (group != null)
+            {
+                ((Frame)Window.Current.Content).Navigate(typeof(GroupPage), group.Id);
+            }
+        }
     }
 }

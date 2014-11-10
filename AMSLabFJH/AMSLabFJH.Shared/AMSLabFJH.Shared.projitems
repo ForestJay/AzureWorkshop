@@ -17,6 +17,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\GroupMembership.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Invitiation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataModel\Person.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GroupMemberViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)GroupView.xaml.cs">
+      <DependentUpon>GroupView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -24,5 +28,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)GroupView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>
