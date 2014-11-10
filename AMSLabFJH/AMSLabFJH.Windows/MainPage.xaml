@@ -31,7 +31,7 @@
             <Grid Grid.Row="1">
                 <StackPanel>
 
-                    <local:QuickStartTask Number="1" Title="Insert a TodoItem" Description="Enter some text below and click Save to insert a new todo item into your database" />
+                    <local:QuickStartTask Number="1" Title="Person" Description="Enter a name below and click Save to insert a new Person item into your database." />
 
                     <StackPanel Orientation="Horizontal" Margin="72,0,0,0">
                         <TextBox Name="TextInput" Margin="5" MinWidth="300"></TextBox>
@@ -47,7 +47,7 @@
                     <RowDefinition />
                 </Grid.RowDefinitions>
                 <StackPanel>
-                    <local:QuickStartTask Number="2" Title="Query and Update Data" Description="Click refresh below to load the unfinished TodoItems from your database. Use the checkbox to complete and update your TodoItems" />
+                    <local:QuickStartTask Number="2" Title="Groups" Description="Click refresh below to load the People from your database." />
                     <Button Margin="72,0,0,0" Name="ButtonRefresh" Click="ButtonRefresh_Click">Refresh</Button>
                 </StackPanel>
 
@@ -55,7 +55,7 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Horizontal">
-                                <CheckBox Name="CheckBoxComplete" IsChecked="{Binding Complete, Mode=TwoWay}" Checked="CheckBoxComplete_Checked" Content="{Binding Text}" Margin="10,5" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListView.ItemTemplate>

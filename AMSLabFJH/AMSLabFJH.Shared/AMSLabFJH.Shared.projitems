@@ -6,13 +6,13 @@
     <SharedGUID>1bba7382-395f-44d1-9431-813384eab491</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>ZUMOAPPNAME</Import_RootNamespace>
+    <Import_RootNamespace>AMSLabFJH</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)DataModel\TodoItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataModel\Person.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.cs" />
   </ItemGroup>
   <ItemGroup>

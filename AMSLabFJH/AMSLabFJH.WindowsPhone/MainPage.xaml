@@ -33,16 +33,16 @@
                 <ColumnDefinition Width="4*" />
                 <ColumnDefinition Width="2*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BodyTextBlockStyle}" Text="Enter some text below and click Save to insert a new TodoItem item into your database" TextWrapping="Wrap"/>
+            <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource BodyTextBlockStyle}" Text="Enter a name below and click Save to insert a new Person item into your database." TextWrapping="Wrap"/>
             <TextBox Grid.Row="1" Grid.Column="0" Name="TextInput" Text="" />
             <Button Grid.Row ="1" Grid.Column="1" Name="ButtonSave" Click="ButtonSave_Click" IsEnabled="False" Margin="10, 0, 0, 0">Save</Button>
-            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource BodyTextBlockStyle}" Text="Click refresh below to load the unfinished TodoItems from your database. Use the checkbox to complete and update your TodoItems" TextWrapping="Wrap"/>
+            <TextBlock Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource BodyTextBlockStyle}" Text="Click refresh below to load the People from your database." TextWrapping="Wrap"/>
             <Button Grid.Row="3" Grid.ColumnSpan="2" Name="ButtonRefresh" Click="ButtonRefresh_Click" HorizontalAlignment="Stretch">Refresh</Button>
             <ListView  Grid.Row="4" Grid.ColumnSpan="2" Name="ListItems">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Name="CheckBoxComplete" IsChecked="{Binding Complete, Mode=TwoWay}" Checked="CheckBoxComplete_Checked" Content="{Binding Text}" Margin="10,5" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Center"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>

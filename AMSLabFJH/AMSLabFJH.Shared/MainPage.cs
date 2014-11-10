@@ -7,36 +7,36 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using AMSLabFJH.DataModel;
 
 namespace AMSLabFJH
 {
     sealed partial class MainPage: Page
     {
-        private MobileServiceCollection<TodoItem, TodoItem> items;
-        private IMobileServiceTable<TodoItem> todoTable = App.MobileService.GetTable<TodoItem>();
+        private MobileServiceCollection<Person, Person> items;
+        private IMobileServiceTable<Person> todoTable = App.MobileService.GetTable<Person>();
 
         public MainPage()
         {
             this.InitializeComponent();
         }
 
-        private async Task InsertTodoItem(TodoItem todoItem)
+        private async Task InsertPerson(Person Person)
         {
-            // This code inserts a new TodoItem into the database. When the operation completes
+            // This code inserts a new Person into the database. When the operation completes
             // and Mobile Services has assigned an Id, the item is added to the CollectionView
-            await todoTable.InsertAsync(todoItem);
-            items.Add(todoItem);
+            await todoTable.InsertAsync(Person);
+            items.Add(Person);
         }
 
-        private async Task RefreshTodoItems()
+        private async Task RefreshPersons()
         {
             MobileServiceInvalidOperationException exception = null;
             try
             {
-                // This code refreshes the entries in the list view by querying the TodoItems table.
-                // The query excludes completed TodoItems
+                // This code refreshes the entries in the list view by querying the Persons table.
+                // The query excludes completed Persons
                 items = await todoTable
-                    .Where(todoItem => todoItem.Complete == false)
                     .ToCollectionAsync();
             }
             catch (MobileServiceInvalidOperationException e)
@@ -55,36 +55,20 @@ namespace AMSLabFJH
             }
         }
 
-        private async Task UpdateCheckedTodoItem(TodoItem item)
-        {
-            // This code takes a freshly completed TodoItem and updates the database. When the MobileService 
-            // responds, the item is removed from the list 
-            await todoTable.UpdateAsync(item);
-            items.Remove(item);
-            ListItems.Focus(Windows.UI.Xaml.FocusState.Unfocused);
-        }
-
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)
         {
-            await RefreshTodoItems();
+            await RefreshPersons();
         }
 
         private async void ButtonSave_Click(object sender, RoutedEventArgs e)
         {
-            var todoItem = new TodoItem { Text = TextInput.Text };
-            await InsertTodoItem(todoItem);
-        }
-
-        private async void CheckBoxComplete_Checked(object sender, RoutedEventArgs e)
-        {
-            CheckBox cb = (CheckBox)sender;
-            TodoItem item = cb.DataContext as TodoItem;
-            await UpdateCheckedTodoItem(item);
+            var Person = new Person { Name = TextInput.Text };
+            await InsertPerson(Person);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
-            await RefreshTodoItems();
+            await RefreshPersons();
         }
     }
 }
