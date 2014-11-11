@@ -6,9 +6,12 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using AMSLabFJHService.DataObjects;
 using AMSLabFJHService.Models;
+using Microsoft.WindowsAzure.Mobile.Service.Security;
 
 namespace AMSLabFJHService.Controllers
 {
+    [AuthorizeLevel(AuthorizationLevel.User)]
+
     public class GroupController : TableController<Group>
     {
         protected override void Initialize(HttpControllerContext controllerContext)

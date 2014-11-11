@@ -1139,6 +1139,12 @@
             Log category identifying logs coming from an ASP.NET Web API Model Binding.
             </summary>
         </member>
+        <member name="F:Microsoft.WindowsAzure.Mobile.Service.LogCategories.NotificationControllers">
+            <summary>
+            Log category identifying logs coming from the <see cref="T:Microsoft.WindowsAzure.Mobile.Service.Controllers.NotificationRegistrationIdsController"/> or 
+            <see cref="T:Microsoft.WindowsAzure.Mobile.Service.Controllers.NotificationRegistrationsController"/> controllers.
+            </summary>
+        </member>
         <member name="F:Microsoft.WindowsAzure.Mobile.Service.LogCategories.Request">
             <summary>
             Log category identifying logs coming from a part of the ASP.NET Web API Request flow.
@@ -1909,6 +1915,14 @@
             <param name="secretKey">The secret key to sign the token with.</param>
             <returns>A new <see cref="T:Microsoft.WindowsAzure.Mobile.Service.Security.LoginResult"/>.</returns>
         </member>
+        <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.LoginProvider.AuthenticateClient(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Handles the specified client flow login request
+            </summary>
+            <param name="request">The login request</param>
+            <returns>The authentication result. Null can be returned to indicate that the
+            login failed.</returns>
+        </member>
         <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.LoginProvider.CreateTokenInfo(System.Security.Claims.ClaimsIdentity,Microsoft.WindowsAzure.Mobile.Service.Security.ProviderCredentials,System.String)">
             <summary>
             Creates the final login token using the specified inputs. Derived classes can override to customize
@@ -2073,6 +2087,13 @@
         <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.AzureActiveDirectoryLoginProvider.ParseCredentials(Newtonsoft.Json.Linq.JObject)">
             <inheritdoc />
         </member>
+        <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.AzureActiveDirectoryLoginProvider.AuthenticateClient(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Handles the specified client flow login request
+            </summary>
+            <param name="request">The client login request</param>
+            <returns>The authentication result</returns>
+        </member>
         <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.AzureActiveDirectoryLoginProvider.CreateTokenInfo(System.Security.Claims.ClaimsIdentity,Microsoft.WindowsAzure.Mobile.Service.Security.ProviderCredentials,System.String)">
             <inheritdoc />
         </member>
@@ -2149,6 +2170,13 @@
         <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.FacebookLoginProvider.ParseCredentials(Newtonsoft.Json.Linq.JObject)">
             <inheritdoc />
         </member>
+        <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.FacebookLoginProvider.ExchangeTokenAsync(System.Net.Http.HttpRequestMessage,System.String)">
+            <summary>
+            Exchange the user access token for a long lived token. We're following Facebook's recommendation from
+            https://developers.facebook.com/docs/facebook-login/access-tokens. This ensures the short
+            term access token given to us has not expired and was granted by a request to this app
+            </summary>
+        </member>
         <member name="P:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.FacebookLoginProvider.Name">
             <inheritdoc />
         </member>
@@ -2185,6 +2213,12 @@
         </member>
         <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.GoogleLoginProvider.ParseCredentials(Newtonsoft.Json.Linq.JObject)">
             <inheritdoc />
+        </member>
+        <member name="M:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.GoogleLoginProvider.GetCertificates">
+            <summary>
+            Retrieves the certificates from Google
+            </summary>
+            <returns>The collection of Google certificates.</returns>
         </member>
         <member name="P:Microsoft.WindowsAzure.Mobile.Service.Security.Providers.GoogleLoginProvider.Name">
             <inheritdoc />
@@ -3024,6 +3058,11 @@
         <member name="F:Microsoft.WindowsAzure.Mobile.Service.Config.ServiceSettingsKeys.MicrosoftAccountScope">
             <summary>
             The key identifying the application setting containing the Microsoft Account scope associated with this service.
+            </summary>
+        </member>
+        <member name="F:Microsoft.WindowsAzure.Mobile.Service.Config.ServiceSettingsKeys.MicrosoftAccountAudience">
+            <summary>
+            The key identifying the application setting containing the Microsoft Account audience used for token validation.
             </summary>
         </member>
         <member name="F:Microsoft.WindowsAzure.Mobile.Service.Config.ServiceSettingsKeys.MicrosoftPackageSID">
@@ -4256,6 +4295,13 @@
             <param name="args">An object array that contains zero or more objects to format.</param>
             <returns>An initialized <see cref="T:System.Net.Http.HttpResponseMessage"/>.</returns>
         </member>
+        <member name="M:System.Net.Http.HttpRequestMessageExtensions.GetAuthenticationManager(System.Net.Http.HttpRequestMessage)">
+            <summary>
+            Returns the <see cref="T:Microsoft.Owin.Security.IAuthenticationManager"/> for the specified request.
+            </summary>
+            <param name="request">The current <see cref="T:System.Net.Http.HttpRequestMessage"/>.</param>
+            <returns>The <see cref="T:Microsoft.Owin.Security.IAuthenticationManager"/></returns>
+        </member>
         <member name="M:System.Net.Http.HttpRequestMessageExtensions.SetMetricEventFormatValues(System.Net.Http.HttpRequestMessage,System.Object[])">
             <summary>
             Adds the specified set of metric event format values to the properties collection
@@ -4983,6 +5029,11 @@
             can be specified, separated by spaces.
             </summary>
         </member>
+        <member name="P:Microsoft.WindowsAzure.Mobile.Service.ServiceSettingsDictionary.MicrosoftAccountAudience">
+            <summary>
+            Gets or sets the Microsoft Account audience used for token validation.
+            </summary>
+        </member>
         <member name="P:Microsoft.WindowsAzure.Mobile.Service.ServiceSettingsDictionary.MicrosoftPackageSID">
             <summary>
             Gets or sets the Microsoft Package SID associated with this service.
@@ -5611,6 +5662,11 @@
         <member name="P:Microsoft.WindowsAzure.Mobile.Service.Properties.RResources.NotificationHub_BadPlatform">
             <summary>
               Looks up a localized string similar to The platform value &apos;{0}&apos; is invalid. It must be one of the following values: {1}..
+            </summary>
+        </member>
+        <member name="P:Microsoft.WindowsAzure.Mobile.Service.Properties.RResources.NotificationHub_CreateIdFailed">
+            <summary>
+              Looks up a localized string similar to Could not create a push notification registration ID: {0}.
             </summary>
         </member>
         <member name="P:Microsoft.WindowsAzure.Mobile.Service.Properties.RResources.NotificationHub_FailedConstraint">

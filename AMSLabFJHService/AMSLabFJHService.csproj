@@ -62,11 +62,15 @@
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.2.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.WindowsAzure.Mobile.Service">
-      <HintPath>..\packages\WindowsAzure.MobileServices.Backend.1.0.405\lib\net45\Microsoft.WindowsAzure.Mobile.Service.dll</HintPath>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.Service, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WindowsAzure.MobileServices.Backend.1.0.439\lib\net45\Microsoft.WindowsAzure.Mobile.Service.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Mobile.Service.Entity">
       <HintPath>..\packages\WindowsAzure.MobileServices.Backend.Entity.1.0.405\lib\net45\Microsoft.WindowsAzure.Mobile.Service.Entity.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAzure.Mobile.Service.Security">
+      <HintPath>..\packages\WindowsAzure.MobileServices.Backend.Security.1.0.439\lib\net45\Microsoft.WindowsAzure.Mobile.Service.Security.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Mobile.Service.Tables">
       <HintPath>..\packages\WindowsAzure.MobileServices.Backend.Tables.1.0.405\lib\net45\Microsoft.WindowsAzure.Mobile.Service.Tables.dll</HintPath>
@@ -185,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Authentication\UserInformation.cs" />
     <Compile Include="Controllers\CheckInController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\GroupMembershipController.cs" />
