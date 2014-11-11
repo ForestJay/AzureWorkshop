@@ -6,12 +6,19 @@ using System.Web.Http.OData;
 using Microsoft.WindowsAzure.Mobile.Service;
 using AMSLabFJHService.DataObjects;
 using AMSLabFJHService.Models;
+using System;
+using System.Data.Entity;
+using Microsoft.WindowsAzure.Mobile.Service.Security;
+using AMSLabFJHService.Authentication;
 
 namespace AMSLabFJHService.Controllers
 {
+   [AuthorizeLevel(AuthorizationLevel.User)]
     public class CheckInController : TableController<CheckIn>
     {
-        protected override void Initialize(HttpControllerContext controllerContext)
+       private AMSLabFJHContext context;
+
+       protected override void Initialize(HttpControllerContext controllerContext)
         {
             base.Initialize(controllerContext);
             AMSLabFJHContext context = new AMSLabFJHContext();
@@ -24,21 +31,16 @@ namespace AMSLabFJHService.Controllers
             return Query(); 
         }
 
-        // GET tables/CheckIn/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public SingleResult<CheckIn> GetCheckIn(string id)
-        {
-            return Lookup(id);
-        }
-
-        // PATCH tables/CheckIn/48D68C86-6EA6-4C25-AA33-223FC9A27959
-        public Task<CheckIn> PatchCheckIn(string id, Delta<CheckIn> patch)
-        {
-             return UpdateAsync(id, patch);
-        }
-
         // POST tables/CheckIn/48D68C86-6EA6-4C25-AA33-223FC9A27959
         public async Task<IHttpActionResult> PostCheckIn(CheckIn item)
         {
+            string externalId = await UserInformation.ExternalIdFromUser(User);
+            string personId = await context.People
+                .Where(p => p.ExternalId == externalId)
+                .Select(p => p.Id)
+                .SingleOrDefaultAsync();
+            item.PersonId = personId;
+            item.CheckInTime = DateTime.UtcNow.ToString("o"); 
             CheckIn current = await InsertAsync(item);
             return CreatedAtRoute("Tables", new { id = current.Id }, current);
         }

@@ -11,6 +11,7 @@ using AMSLabFJH.DataModel;
 using Windows.Security.Credentials;
 using System.Linq;
 using System.Net;
+using Windows.Devices.Geolocation;
 
 namespace AMSLabFJH
 {
@@ -181,6 +182,32 @@ namespace AMSLabFJH
             } while (credentials != null);
 
             App.MobileService.CurrentUser = null;
+        }
+
+        private async void ButtonCheckIn_Click(object sender, RoutedEventArgs e)
+        {
+            Exception error = null;
+            try
+            {
+                var loc = new Geolocator();
+                Geoposition pos = await loc.GetGeopositionAsync();
+                BasicGeoposition pp = pos.Coordinate.Point.Position;
+                string positionText =
+                  string.Format("{0}, {1}", pp.Latitude, pp.Longitude);
+                var c = new CheckIn { Location = positionText };
+                await App.MobileService.GetTable<CheckIn>().InsertAsync(c);
+
+            }
+            catch (Exception x)
+            {
+                error = x;
+            }
+
+            if (error != null)
+            {
+                var md = new MessageDialog(error.Message, "Error");
+                await md.ShowAsync();
+            }
         }
     }
 }

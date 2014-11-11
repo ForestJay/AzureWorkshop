@@ -43,6 +43,7 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="{Binding Name}" Margin="10,5" VerticalAlignment="Center"/>
+                            <Button Content="Check in" Click="ButtonCheckIn_Click"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListView.ItemTemplate>
