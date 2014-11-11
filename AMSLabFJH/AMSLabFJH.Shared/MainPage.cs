@@ -103,8 +103,7 @@ namespace AMSLabFJH
 
                 userNameTextBox.Text = person.Name;
 
-                items = await groupsTable.Where(g => g.OwnerId ==
-                  person.Id).ToCollectionAsync();
+                items = await groupsTable.ToCollectionAsync();
             }
             catch (MobileServiceInvalidOperationException e)
             {
@@ -120,6 +119,13 @@ namespace AMSLabFJH
                 ListItems.ItemsSource = items;
                 this.changeNameButton.IsEnabled = true;
             }
+        }
+
+        private async void ButtonAddGroup_Click(object sender, RoutedEventArgs e)
+        {
+            var g = new Group { Name = groupNameTextBox.Text };
+            await groupsTable.InsertAsync(g);
+            await RefreshData();
         }
 
         private async void ButtonRefresh_Click(object sender, RoutedEventArgs e)

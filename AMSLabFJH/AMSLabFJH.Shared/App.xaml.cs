@@ -122,5 +122,17 @@ namespace AMSLabFJH
             //TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+#if WINDOWS_PHONE_APP
+            if (args.Kind == ActivationKind.WebAuthenticationBrokerContinuation)
+            {
+                MobileService.LoginComplete(args as WebAuthenticationBrokerContinuationEventArgs);
+            }
+#endif
+
+        }
     }
 }

@@ -36,6 +36,8 @@
                     <StackPanel Orientation="Horizontal" Margin="72,0,0,0">
                         <TextBox Name="userNameTextBox" Margin="5" MinWidth="300"></TextBox>
                         <Button Name="changeNameButton" Click="ChangeName_Click" IsEnabled="False">Change</Button>
+                        <TextBox x:Name="groupNameTextBox" />
+                        <Button Click="ButtonAddGroup_Click" Content="Add group" />
                     </StackPanel>
 
                 </StackPanel>
