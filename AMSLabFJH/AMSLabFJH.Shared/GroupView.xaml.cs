@@ -15,6 +15,9 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.WindowsAzure.MobileServices;
 using AMSLabFJH.DataModel;
 using Windows.UI.Popups;
+#if WINDOWS_PHONE_APP
+using Windows.ApplicationModel.Email;
+#endif
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -22,6 +25,7 @@ namespace AMSLabFJH
 {
     public sealed partial class GroupView : UserControl
     {
+        private const string WebSiteBase = "http://AMSLabFJH.azurewebsites.net/";
         private Group group;
         private IMobileServiceTable<Person> peopleTable = App.MobileService.GetTable<Person>();
         private IMobileServiceTable<Group> groupsTable = App.MobileService.GetTable<Group>();
@@ -79,6 +83,31 @@ namespace AMSLabFJH
             {
                 listItems.ItemsSource = items;
             }
+        }
+
+        private async void ButtonInvite_OnClick(object sender, RoutedEventArgs e)
+        {
+            var invitation = new Invitation { GroupId = group.Id };
+            await App.MobileService.GetTable<Invitation>().InsertAsync(invitation);
+            string url = string.Format("{0}Invitation/{1}", WebSiteBase, invitation.Id);
+            const string messageSubject = "Please join my group";
+            string messageBody = string.Format(
+          "I'd like you to join my group, to help us stay in touch during emergencies. " +
+        "Please click on this link to join: {0}", url);
+
+#if WINDOWS_PHONE_APP
+    var em = new EmailMessage
+    {
+      Subject = messageSubject,
+      Body = messageBody
+    };
+    await EmailManager.ShowComposeNewEmailAsync(em);
+#else
+            var mailto =
+              new Uri(string.Format("mailto:?subject={0}&body={1}",
+                messageSubject, messageBody));
+            await Windows.System.Launcher.LaunchUriAsync(mailto);
+#endif
         }
     }
 }
