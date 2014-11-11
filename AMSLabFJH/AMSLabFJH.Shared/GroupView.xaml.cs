@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Navigation;
 using Microsoft.WindowsAzure.MobileServices;
 using AMSLabFJH.DataModel;
 using Windows.UI.Popups;
+//  I think the following is needed (and more) so that Invitation will be recognized!
+//using AMSLabFJHService.DataObjects;
 #if WINDOWS_PHONE_APP
 using Windows.ApplicationModel.Email;
 #endif

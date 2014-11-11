@@ -1,0 +1,19 @@
+﻿@model WebSite.Models.InvitationViewModel
+
+@{
+    ViewBag.Title = "Invitation";
+}
+
+<div class="jumbotron">
+    <h1>Group Invitation</h1>
+    <p class="lead">@Model.GroupOwnerName has invited you to the '@Model.GroupName' group.</p>
+</div>
+
+<div class="row">
+    @using (Html.BeginForm("Accept", "Invitation", new { id = Model.InvitationId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <input type="submit" value="Accept invitation" class="btn btn-default" />
+    }
+</div>
