@@ -20,6 +20,7 @@ using Windows.UI.Popups;
 #if WINDOWS_PHONE_APP
 using Windows.ApplicationModel.Email;
 #endif
+using System.Net.Http;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -27,13 +28,8 @@ namespace AMSLabFJH
 {
     public sealed partial class GroupView : UserControl
     {
-        private const string WebSiteBase = "http://AMSLabFJH.azurewebsites.net/";
-        private Group group;
-        private IMobileServiceTable<Person> peopleTable = App.MobileService.GetTable<Person>();
-        private IMobileServiceTable<Group> groupsTable = App.MobileService.GetTable<Group>();
-        private IMobileServiceTable<CheckIn> checkInsTable = App.MobileService.GetTable<CheckIn>();
-        private IMobileServiceTable<GroupMembership> groupMembershipTable = App.MobileService.GetTable<GroupMembership>();
-        
+        private string groupId;
+
         public GroupView()
         {
             this.InitializeComponent();
@@ -41,36 +37,31 @@ namespace AMSLabFJH
 
         public async void Load(string groupId)
         {
+            this.groupId = groupId;
             MobileServiceInvalidOperationException exception = null;
-            var items = new List<GroupMemberViewModel>();
+            List<GroupMemberViewModel> items = null;
+
             try
             {
-                group = await groupsTable.LookupAsync(groupId);
-                GroupNameTextBlock.Text = group.Name;
+                GroupStatus result = await App.MobileService.InvokeApiAsync<GroupStatus>(
+                  "GroupStatus",
+                  HttpMethod.Get,
+                 new Dictionary<string, string> { { "id", groupId } });
 
-                List<GroupMembership> groupMembers =
-                    await groupMembershipTable.Where(gm => gm.GroupId == groupId).ToListAsync();
-                foreach (GroupMembership member in groupMembers)
-                {
-                    Person person = await peopleTable.LookupAsync(member.PersonId);
+                GroupNameTextBlock.Text = result.GroupName;
 
-                    var checkInQuery = checkInsTable
-                        .Where(ci => ci.PersonId == person.Id)
-                        .OrderByDescending(ci => ci.CheckInTime)
-                        .Take(1);
-                    CheckIn lastCheckIn = (await checkInQuery.ToEnumerableAsync()).SingleOrDefault();
+                items = result.MemberStatuses
+                    .Select(
+                        ms =>
+                            new GroupMemberViewModel
+                            {
+                                PersonName = ms.PersonName,
+                                CheckInDetails = ms.CheckInLocation == null
+                                    ? "Not checked in recently"
+                                    : string.Format("Checked in on {0} at {1}", ms.CheckInTime, ms.CheckInLocation)
 
-
-                    var item = new GroupMemberViewModel
-                    {
-                        PersonName = person.Name,
-                        CheckInDetails = lastCheckIn == null
-                            ? "Not checked in recently"
-                            : string.Format("Checked in on {0} at {1}", lastCheckIn.CheckInTime, lastCheckIn.Location)
-                    };
-                    items.Add(item);
-                }
-
+                            })
+                    .ToList();
             }
             catch (MobileServiceInvalidOperationException e)
             {
@@ -89,7 +80,7 @@ namespace AMSLabFJH
 
         private async void ButtonInvite_OnClick(object sender, RoutedEventArgs e)
         {
-            var invitation = new Invitation { GroupId = group.Id };
+            var invitation = new Invitation { GroupId = groupId };
             await App.MobileService.GetTable<Invitation>().InsertAsync(invitation);
             string url = string.Format("{0}Invitation/{1}", WebSiteBase, invitation.Id);
             const string messageSubject = "Please join my group";
